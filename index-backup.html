@@ -1,0 +1,1484 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OmniAI — All Intelligence. One Destination.</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg: #080710;
+    --panel: #100e1b;
+    --panel2: #171426;
+    --purple: #9165ff;
+    --purple2: #7044e8;
+    --text: #f4f0ff;
+    --muted: #9690a9;
+    --border: rgba(255,255,255,.09);
+    --green: #55d6a1;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, sans-serif;
+    min-height: 100vh;
+}
+
+button, input, textarea, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 265px;
+    background: #0d0b16;
+    border-right: 1px solid var(--border);
+    padding: 22px 16px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: .25s;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 0 8px;
+    margin-bottom: 32px;
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #a27aff, #5425c7);
+    box-shadow: 0 0 25px rgba(130,85,255,.3);
+}
+
+.logo-name {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.8px;
+}
+
+.logo-name span {
+    color: #a47cff;
+}
+
+.sidebar-btn {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    color: var(--text);
+    padding: 12px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    transition: .2s;
+}
+
+.sidebar-btn:hover {
+    border-color: var(--purple);
+    background: rgba(145,101,255,.13);
+}
+
+.sidebar-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    padding: 22px 9px 10px;
+}
+
+.search-box {
+    background: #171422;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 10px;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.search-box input {
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: white;
+    width: 100%;
+    font-size: 12px;
+}
+
+.history-list {
+    overflow-y: auto;
+    flex: 1;
+    min-height: 100px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px;
+    border-radius: 8px;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.history-item:hover,
+.history-item.active {
+    background: rgba(145,101,255,.13);
+    color: white;
+}
+
+.history-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+}
+
+.history-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+}
+
+.history-item:hover .history-actions {
+    opacity: 1;
+}
+
+.history-actions button {
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    padding: 2px;
+}
+
+.history-actions button:hover {
+    color: white;
+}
+
+.sidebar-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 5px;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg,#a27aff,#5630ba);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info strong {
+    font-size: 12px;
+    display: block;
+}
+
+.profile-info span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+/* MAIN */
+
+.main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.topbar {
+    height: 70px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+}
+
+.topbar-left,
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.topbar-title {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.model-select {
+    background: var(--panel2);
+    color: white;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 10px 13px;
+    outline: none;
+    font-size: 12px;
+}
+
+.model-select option {
+    background: #171426;
+}
+
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    color: white;
+}
+
+.icon-btn:hover {
+    border-color: var(--purple);
+}
+
+.upgrade-btn {
+    background: linear-gradient(135deg,#9a72ff,#673bd0);
+    border: 0;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.content {
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 38px 28px 25px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* WELCOME */
+
+.welcome {
+    text-align: center;
+    margin: auto auto 38px;
+    width: 100%;
+}
+
+.welcome-symbol {
+    width: 68px;
+    height: 68px;
+    border-radius: 22px;
+    background: linear-gradient(135deg,#a17aff,#5426bd);
+    box-shadow: 0 0 60px rgba(137,88,255,.25);
+    display: grid;
+    place-items: center;
+    margin: 0 auto 25px;
+    font-size: 30px;
+}
+
+.welcome h1 {
+    font-size: clamp(28px,4vw,43px);
+    letter-spacing: -1.8px;
+    margin-bottom: 12px;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg,#b79aff,#8657ff,#d4baff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.welcome p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.suggestions {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px;
+    max-width: 650px;
+    margin: 30px auto 0;
+}
+
+.suggestion {
+    background: rgba(255,255,255,.025);
+    border: 1px solid var(--border);
+    padding: 17px;
+    border-radius: 12px;
+    text-align: left;
+    color: white;
+    transition: .2s;
+}
+
+.suggestion:hover {
+    border-color: var(--purple);
+    background: rgba(145,101,255,.09);
+    transform: translateY(-2px);
+}
+
+.suggestion strong {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.suggestion span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* CHAT */
+
+.chat-window {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 22px;
+    padding-bottom: 25px;
+}
+
+.chat-message {
+    display: flex;
+    gap: 13px;
+    align-items: flex-start;
+    line-height: 1.75;
+    font-size: 13px;
+}
+
+.message-avatar {
+    width: 31px;
+    height: 31px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    font-size: 13px;
+}
+
+.user-message .message-avatar {
+    background: #33205d;
+}
+
+.message-body {
+    padding-top: 4px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.message-role {
+    font-size: 11px;
+    color: #b8a0ff;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.message-text {
+    white-space: pre-wrap;
+    color: #e5e0ef;
+}
+
+.message-text p {
+    margin-bottom: 8px;
+}
+
+/* INPUT */
+
+.input-area {
+    margin-top: auto;
+    width: 100%;
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-container {
+    background: #151222;
+    border: 1px solid rgba(167,130,255,.24);
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 0 35px rgba(95,50,180,.08);
+}
+
+.input-container:focus-within {
+    border-color: rgba(167,130,255,.7);
+}
+
+#user-input {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    resize: none;
+    min-height: 48px;
+    max-height: 180px;
+    color: white;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+#user-input::placeholder {
+    color: #777187;
+}
+
+.input-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input-hint {
+    color: #777187;
+    font-size: 10px;
+}
+
+.send-btn {
+    width: 37px;
+    height: 37px;
+    background: linear-gradient(135deg,#a17aff,#683bd2);
+    border: 0;
+    border-radius: 10px;
+    color: white;
+    font-size: 17px;
+}
+
+.send-btn:hover {
+    filter: brightness(1.2);
+}
+
+.disclaimer {
+    text-align: center;
+    color: #777187;
+    font-size: 10px;
+    margin-top: 12px;
+}
+
+/* MODEL CARDS */
+
+.models-section {
+    padding-top: 45px;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.section-heading h2 {
+    font-size: 16px;
+    margin-bottom: 7px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.model-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 12px;
+}
+
+.model-card {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.025);
+    border-radius: 12px;
+    padding: 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.model-card:hover,
+.model-card.selected {
+    border-color: var(--purple);
+    background: rgba(145,101,255,.1);
+}
+
+.model-logo {
+    width: 35px;
+    height: 35px;
+    margin: 0 auto 10px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    background: var(--panel2);
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.model-card strong {
+    font-size: 11px;
+    display: block;
+}
+
+.model-card span {
+    color: var(--muted);
+    font-size: 9px;
+    display: block;
+    margin-top: 5px;
+}
+
+.footer {
+    text-align: center;
+    color: #696378;
+    font-size: 10px;
+    padding: 20px;
+}
+
+/* MODALS */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
+    backdrop-filter: blur(7px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 20;
+}
+
+.modal-backdrop.open {
+    display: flex;
+}
+
+.modal {
+    width: 100%;
+    max-width: 720px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #12101e;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 27px;
+    box-shadow: 0 20px 100px rgba(0,0,0,.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.modal-header h2 {
+    font-size: 19px;
+}
+
+.close-modal {
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    font-size: 22px;
+}
+
+.modal-description {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 12px;
+}
+
+.price-card {
+    background: #191627;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 17px;
+}
+
+.price-card.featured {
+    border-color: var(--purple);
+    background: rgba(145,101,255,.09);
+}
+
+.price-card h3 {
+    font-size: 14px;
+    margin-bottom: 13px;
+}
+
+.price {
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.price small {
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 400;
+}
+
+.price-card ul {
+    list-style: none;
+    margin: 18px 0;
+}
+
+.price-card li {
+    font-size: 10px;
+    color: #c1bbd0;
+    margin-bottom: 11px;
+}
+
+.price-card li::before {
+    content: "✓ ";
+    color: var(--green);
+}
+
+.plan-btn {
+    width: 100%;
+    padding: 11px;
+    border-radius: 8px;
+    background: #29243a;
+    border: 1px solid var(--border);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.featured .plan-btn {
+    background: linear-gradient(135deg,#9a72ff,#673bd0);
+    border: 0;
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding: 17px 0;
+    gap: 15px;
+}
+
+.setting-row strong {
+    font-size: 12px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.setting-row span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.setting-row select {
+    background: var(--panel2);
+    color: white;
+    border: 1px solid var(--border);
+    padding: 8px;
+    border-radius: 7px;
+}
+
+.notice {
+    background: rgba(145,101,255,.09);
+    border: 1px solid rgba(145,101,255,.2);
+    padding: 13px;
+    border-radius: 9px;
+    color: #c9b9ff;
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 18px;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg,#9a72ff,#673bd0);
+    border: 0;
+    padding: 11px 15px;
+    border-radius: 8px;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.empty-history {
+    color: #777187;
+    font-size: 11px;
+    padding: 10px;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+/* MOBILE */
+
+@media(max-width:850px) {
+    .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        z-index: 15;
+        width: 265px;
+        box-shadow: 15px 0 40px rgba(0,0,0,.4);
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .mobile-menu {
+        display: inline-block;
+    }
+
+    .content {
+        padding: 30px 17px 20px;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+}
+
+@media(max-width:600px) {
+    .model-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .suggestions {
+        grid-template-columns: 1fr;
+    }
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome h1 {
+        font-size: 30px;
+    }
+
+    .topbar-title {
+        display: none;
+    }
+
+    .upgrade-btn {
+        padding: 9px 10px;
+    }
+
+    .modal {
+        padding: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">✦</div>
+        <div class="logo-name">Omni<span>AI</span></div>
+    </div>
+
+    <button class="sidebar-btn" onclick="newChat()">
+        <span>＋</span> New Chat
+    </button>
+
+    <button class="sidebar-btn" onclick="openPricing()">
+        <span>✧</span> Explore Plans
+    </button>
+
+    <div class="sidebar-label">YOUR CONVERSATIONS</div>
+
+    <div class="search-box">
+        <span>⌕</span>
+        <input id="history-search" placeholder="Search chats..." oninput="renderHistory()">
+    </div>
+
+    <div class="history-list" id="chat-history-list"></div>
+
+    <div class="sidebar-bottom">
+        <button class="sidebar-btn" onclick="openSettings()">
+            <span>⚙</span> Settings
+        </button>
+
+        <div class="profile">
+            <div class="avatar">U</div>
+            <div class="profile-info">
+                <strong>My Account</strong>
+                <span id="plan-label">Free Plan</span>
+            </div>
+            <span style="color:var(--muted)">•••</span>
+        </div>
+    </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+    <header class="topbar">
+        <div class="topbar-left">
+            <button class="icon-btn mobile-menu" onclick="toggleSidebar()">☰</button>
+            <div class="topbar-title">AI WORKSPACE</div>
+            <select class="model-select" id="model-select" onchange="selectModel(this.value)">
+                <option value="ChatGPT">ChatGPT</option>
+                <option value="Claude">Claude</option>
+                <option value="Gemini">Gemini</option>
+                <option value="Grok">Grok</option>
+            </select>
+        </div>
+
+        <div class="topbar-right">
+            <button class="upgrade-btn" onclick="openPricing()">✦ Upgrade Plan</button>
+        </div>
+    </header>
+
+    <section class="content">
+
+        <!-- WELCOME -->
+        <div class="welcome" id="welcome-screen">
+            <div class="welcome-symbol">✦</div>
+            <h1>All Intelligence.<br><span class="gradient-text">One Destination.</span></h1>
+            <p>Your unified AI workspace.<br>Explore ideas, create, research, and get things done.</p>
+
+            <div class="suggestions">
+                <button class="suggestion" onclick="useSuggestion('Help me brainstorm a business idea.')">
+                    <strong>✧ Business & Ideas</strong>
+                    <span>Brainstorm your next big idea</span>
+                </button>
+
+                <button class="suggestion" onclick="useSuggestion('Help me write something creative.')">
+                    <strong>✎ Creative Writing</strong>
+                    <span>Write, create, and explore</span>
+                </button>
+
+                <button class="suggestion" onclick="useSuggestion('Explain a difficult topic in simple terms.')">
+                    <strong>⌕ Research & Learning</strong>
+                    <span>Understand something new</span>
+                </button>
+
+                <button class="suggestion" onclick="useSuggestion('Give me some ideas for my next project.')">
+                    <strong>✦ Project Planning</strong>
+                    <span>Turn your ideas into plans</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- CHAT -->
+        <div class="chat-window" id="chat-window"></div>
+
+        <!-- INPUT -->
+        <div class="input-area">
+            <div class="input-container">
+                <textarea id="user-input" rows="2" placeholder="Message OmniAI..." oninput="autoResize(this)"></textarea>
+
+                <div class="input-bottom">
+                    <span class="input-hint">↵ Send · Shift + ↵ New line</span>
+                    <button class="send-btn" onclick="sendMessage()">↑</button>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                OmniAI demo interface · AI responses are currently simulated
+            </div>
+        </div>
+
+        <!-- MODELS -->
+        <div class="models-section" id="models-section">
+            <div class="section-heading">
+                <h2>Explore AI Models</h2>
+                <p>Choose the intelligence you want to work with.</p>
+            </div>
+
+            <div class="model-grid">
+                <div class="model-card selected" data-model="ChatGPT" onclick="selectModel('ChatGPT')">
+                    <div class="model-logo">G</div>
+                    <strong>ChatGPT</strong>
+                    <span>OpenAI</span>
+                </div>
+
+                <div class="model-card" data-model="Claude" onclick="selectModel('Claude')">
+                    <div class="model-logo">C</div>
+                    <strong>Claude</strong>
+                    <span>Anthropic</span>
+                </div>
+
+                <div class="model-card" data-model="Gemini" onclick="selectModel('Gemini')">
+                    <div class="model-logo">✦</div>
+                    <strong>Gemini</strong>
+                    <span>Google</span>
+                </div>
+
+                <div class="model-card" data-model="Grok" onclick="selectModel('Grok')">
+                    <div class="model-logo">X</div>
+                    <strong>Grok</strong>
+                    <span>xAI</span>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer class="footer">
+        © 2026 OmniAI · All Intelligence. One Destination.
+    </footer>
+</main>
+</div>
+
+<!-- PRICING MODAL -->
+<div class="modal-backdrop" id="pricing-modal" onclick="backdropClose(event,'pricing-modal')">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>Choose Your Plan</h2>
+            <button class="close-modal" onclick="closeModal('pricing-modal')">×</button>
+        </div>
+
+        <p class="modal-description">
+            Unlock more possibilities with OmniAI. Choose the plan that fits your workflow.
+        </p>
+
+        <div class="pricing-grid">
+
+            <div class="price-card">
+                <h3>Free</h3>
+                <div class="price">$0 <small>/ month</small></div>
+                <ul>
+                    <li>Basic workspace</li>
+                    <li>Saved conversations</li>
+                    <li>Demo model selection</li>
+                    <li>Standard interface</li>
+                </ul>
+                <button class="plan-btn" onclick="selectPlan('Free')">Current Starter Plan</button>
+            </div>
+
+            <div class="price-card featured">
+                <h3>✦ Plus</h3>
+                <div class="price">$9.99 <small>/ month</small></div>
+                <ul>
+                    <li>Higher message limits</li>
+                    <li>Multiple AI model access</li>
+                    <li>Advanced workspace</li>
+                    <li>Priority features</li>
+                </ul>
+                <button class="plan-btn" onclick="selectPlan('Plus')">Choose Plus</button>
+            </div>
+
+            <div class="price-card">
+                <h3>Pro</h3>
+                <div class="price">$19.99 <small>/ month</small></div>
+                <ul>
+                    <li>Higher usage limits</li>
+                    <li>Advanced model access</li>
+                    <li>Premium workspace</li>
+                    <li>Priority support</li>
+                </ul>
+                <button class="plan-btn" onclick="selectPlan('Pro')">Choose Pro</button>
+            </div>
+
+        </div>
+
+        <div class="notice">
+            Subscription checkout is not connected yet. These are preview plans; no payment will be taken.
+        </div>
+    </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-backdrop" id="settings-modal" onclick="backdropClose(event,'settings-modal')">
+    <div class="modal" style="max-width:500px">
+        <div class="modal-header">
+            <h2>Settings</h2>
+            <button class="close-modal" onclick="closeModal('settings-modal')">×</button>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <strong>Default AI Model</strong>
+                <span>Choose your starting model</span>
+            </div>
+            <select id="default-model" onchange="changeDefaultModel(this.value)">
+                <option>ChatGPT</option>
+                <option>Claude</option>
+                <option>Gemini</option>
+                <option>Grok</option>
+            </select>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <strong>Chat Storage</strong>
+                <span>Save conversations in this browser</span>
+            </div>
+            <span style="color:var(--green)">Enabled ✓</span>
+        </div>
+
+        <div class="setting-row">
+            <div>
+                <strong>Current Plan</strong>
+                <span id="settings-plan">Free</span>
+            </div>
+            <button class="primary-btn" onclick="closeModal('settings-modal');openPricing()">View Plans</button>
+        </div>
+
+        <div class="notice">
+            Your conversations are saved locally in this browser. They are not yet synced between devices or accounts.
+        </div>
+    </div>
+</div>
+
+<script>
+/* ==================================
+   OMNIAI APPLICATION
+================================== */
+
+const STORAGE_KEY = "omniai_conversations_v2";
+const SETTINGS_KEY = "omniai_settings_v1";
+
+let conversations = [];
+let currentChatId = null;
+
+let settings = {
+    defaultModel: "ChatGPT",
+    plan: "Free"
+};
+
+/* LOAD SAVED DATA */
+
+function loadData() {
+    try {
+        const savedChats = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (Array.isArray(savedChats)) conversations = savedChats;
+    } catch (error) {
+        console.error("Could not load saved chats:", error);
+        conversations = [];
+    }
+
+    try {
+        const savedSettings = JSON.parse(localStorage.getItem(SETTINGS_KEY));
+        if (savedSettings && typeof savedSettings === "object") {
+            settings = { ...settings, ...savedSettings };
+        }
+    } catch (error) {
+        console.error("Could not load settings:", error);
+    }
+}
+
+function saveConversations() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(conversations));
+    } catch (error) {
+        alert("Unable to save conversations. Your browser storage may be full.");
+        console.error(error);
+    }
+}
+
+function saveSettings() {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+}
+
+/* MODEL SELECTION */
+
+function selectModel(model) {
+    const allowed = ["ChatGPT", "Claude", "Gemini", "Grok"];
+    if (!allowed.includes(model)) return;
+
+    document.getElementById("model-select").value = model;
+
+    document.querySelectorAll(".model-card").forEach(card => {
+        card.classList.toggle("selected", card.dataset.model === model);
+    });
+
+    if (currentChatId) {
+        const chat = getCurrentChat();
+        if (chat) {
+            chat.model = model;
+            saveConversations();
+        }
+    }
+}
+
+function changeDefaultModel(model) {
+    settings.defaultModel = model;
+    saveSettings();
+    selectModel(model);
+}
+
+/* CHAT MANAGEMENT */
+
+function getCurrentChat() {
+    return conversations.find(chat => chat.id === currentChatId);
+}
+
+function createChat(firstMessage = "") {
+    const chat = {
+        id: Date.now().toString() + Math.random().toString(16).slice(2),
+        title: firstMessage
+            ? firstMessage.substring(0, 35) + (firstMessage.length > 35 ? "..." : "")
+            : "New Conversation",
+        model: document.getElementById("model-select").value,
+        messages: [],
+        createdAt: new Date().toISOString()
+    };
+
+    conversations.unshift(chat);
+    currentChatId = chat.id;
+
+    saveConversations();
+    renderHistory();
+
+    return chat;
+}
+
+function newChat() {
+    currentChatId = null;
+
+    document.getElementById("chat-window").innerHTML = "";
+    document.getElementById("chat-window").style.display = "none";
+
+    document.getElementById("welcome-screen").style.display = "block";
+    document.getElementById("models-section").style.display = "block";
+
+    document.getElementById("user-input").value = "";
+    document.getElementById("sidebar").classList.remove("open");
+
+    renderHistory();
+    document.getElementById("user-input").focus();
+}
+
+function openChat(chatId) {
+    const chat = conversations.find(item => item.id === chatId);
+    if (!chat) return;
+
+    currentChatId = chatId;
+
+    document.getElementById("welcome-screen").style.display = "none";
+    document.getElementById("models-section").style.display = "none";
+
+    const chatWindow = document.getElementById("chat-window");
+    chatWindow.style.display = "flex";
+    chatWindow.innerHTML = "";
+
+    selectModel(chat.model || settings.defaultModel);
+
+    chat.messages.forEach(message => {
+        addMessageToScreen(message.role, message.text, false);
+    });
+
+    renderHistory();
+    document.getElementById("sidebar").classList.remove("open");
+
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+function renameChat(chatId) {
+    const chat = conversations.find(item => item.id === chatId);
+    if (!chat) return;
+
+    const newTitle = prompt("Enter a new conversation name:", chat.title);
+
+    if (newTitle && newTitle.trim()) {
+        chat.title = newTitle.trim().substring(0, 60);
+        saveConversations();
+        renderHistory();
+    }
+}
+
+function deleteChat(chatId) {
+    const chat = conversations.find(item => item.id === chatId);
+    if (!chat) return;
+
+    if (!confirm("Delete this conversation permanently?")) return;
+
+    conversations = conversations.filter(item => item.id !== chatId);
+
+    if (currentChatId === chatId) {
+        newChat();
+    }
+
+    saveConversations();
+    renderHistory();
+}
+
+/* CHAT HISTORY */
+
+function renderHistory() {
+    const list = document.getElementById("chat-history-list");
+    const search = document.getElementById("history-search").value.toLowerCase();
+
+    list.innerHTML = "";
+
+    const filtered = conversations.filter(chat =>
+        chat.title.toLowerCase().includes(search)
+    );
+
+    if (filtered.length === 0) {
+        list.innerHTML = '<div class="empty-history">No conversations found.</div>';
+        return;
+    }
+
+    filtered.forEach(chat => {
+        const item = document.createElement("div");
+        item.className = "history-item";
+
+        if (chat.id === currentChatId) item.classList.add("active");
+
+        const title = document.createElement("span");
+        title.className = "history-title";
+        title.textContent = chat.title;
+        title.onclick = () => openChat(chat.id);
+
+        const actions = document.createElement("div");
+        actions.className = "history-actions";
+
+        const rename = document.createElement("button");
+        rename.textContent = "✎";
+        rename.title = "Rename conversation";
+        rename.onclick = event => {
+            event.stopPropagation();
+            renameChat(chat.id);
+        };
+
+        const remove = document.createElement("button");
+        remove.textContent = "×";
+        remove.title = "Delete conversation";
+        remove.onclick = event => {
+            event.stopPropagation();
+            deleteChat(chat.id);
+        };
+
+        actions.append(rename, remove);
+        item.append(title, actions);
+
+        item.onclick = () => openChat(chat.id);
+
+        list.appendChild(item);
+    });
+}
+
+/* MESSAGE DISPLAY */
+
+function addMessageToScreen(role, text, scroll = true) {
+    const chatWindow = document.getElementById("chat-window");
+
+    const message = document.createElement("div");
+    message.className = "chat-message " + (role === "user" ? "user-message" : "bot-message");
+
+    const avatar = document.createElement("div");
+    avatar.className = "message-avatar";
+    avatar.textContent = role === "user" ? "U" : "✦";
+
+    const body = document.createElement("div");
+    body.className = "message-body";
+
+    const label = document.createElement("div");
+    label.className = "message-role";
+    label.textContent = role === "user" ? "You" : "OmniAI Demo";
+
+    const content = document.createElement("div");
+    content.className = "message-text";
+    content.textContent = text;
+
+    body.append(label, content);
+    message.append(avatar, body);
+    chatWindow.appendChild(message);
+
+    if (scroll) chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+/* SEND MESSAGE */
+
+function sendMessage() {
+    const input = document.getElementById("user-input");
+    const message = input.value.trim();
+
+    if (!message) return;
+
+    let chat = getCurrentChat();
+
+    if (!chat) {
+        chat = createChat(message);
+    }
+
+    const model = document.getElementById("model-select").value;
+    chat.model = model;
+
+    chat.messages.push({
+        role: "user",
+        text: message
+    });
+
+    document.getElementById("welcome-screen").style.display = "none";
+    document.getElementById("models-section").style.display = "none";
+    document.getElementById("chat-window").style.display = "flex";
+
+    addMessageToScreen("user", message);
+
+    input.value = "";
+    input.style.height = "auto";
+
+    const responseText = getDemoResponse(model, message);
+
+    chat.messages.push({
+        role: "bot",
+        text: responseText
+    });
+
+    addMessageToScreen("bot", responseText);
+
+    saveConversations();
+    renderHistory();
+}
+
+/* DEMO RESPONSES */
+
+function getDemoResponse(model, message) {
+    const responses = {
+        ChatGPT: "You've selected ChatGPT in OmniAI. This is currently a demonstration response. Once the OpenAI API is connected, this area will display real AI-generated answers.",
+        Claude: "You've selected Claude in OmniAI. This is currently a demonstration response. Once the Anthropic API is connected, this area will display real AI-generated answers.",
+        Gemini: "You've selected Gemini in OmniAI. This is currently a demonstration response. Once the Google Gemini API is connected, this area will display real AI-generated answers.",
+        Grok: "You've selected Grok in OmniAI. This is currently a demonstration response. Once the xAI API is connected, this area will display real AI-generated answers."
+    };
+
+    return responses[model] + "\n\nYour message was: \"" + message + "\"";
+}
+
+function useSuggestion(text) {
+    document.getElementById("user-input").value = text;
+    sendMessage();
+}
+
+/* INPUT CONTROLS */
+
+document.getElementById("user-input").addEventListener("keydown", function(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+    }
+});
+
+function autoResize(element) {
+    element.style.height = "auto";
+    element.style.height = Math.min(element.scrollHeight, 180) + "px";
+}
+
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("open");
+}
+
+/* MODALS */
+
+function openPricing() {
+    document.getElementById("pricing-modal").classList.add("open");
+}
+
+function openSettings() {
+    document.getElementById("default-model").value = settings.defaultModel;
+    document.getElementById("settings-plan").textContent = settings.plan;
+    document.getElementById("settings-modal").classList.add("open");
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove("open");
+}
+
+function backdropClose(event, id) {
+    if (event.target.id === id) closeModal(id);
+}
+
+function selectPlan(plan) {
+    if (plan === "Free") {
+        settings.plan = "Free";
+        saveSettings();
+        updatePlanDisplay();
+        closeModal("pricing-modal");
+        alert("Your Free plan is selected.");
+        return;
+    }
+
+    alert("The " + plan + " plan is displayed as a preview. Secure monthly checkout will be enabled when payment processing is connected.");
+}
+
+/* PLAN DISPLAY */
+
+function updatePlanDisplay() {
+    document.getElementById("plan-label").textContent = settings.plan + " Plan";
+    document.getElementById("settings-plan").textContent = settings.plan;
+}
+
+/* INITIALIZE */
+
+function initializeApp() {
+    loadData();
+
+    document.getElementById("model-select").value = settings.defaultModel;
+    document.getElementById("default-model").value = settings.defaultModel;
+
+    selectModel(settings.defaultModel);
+    updatePlanDisplay();
+    renderHistory();
+
+    if (conversations.length > 0) {
+        openChat(conversations[0].id);
+    }
+}
+
+initializeApp();
+
+</script>
+
+</body>
+</html>
